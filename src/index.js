@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import { app } from "./app.js";
 dotenv.config()
-console.log(process.env.MONGODB_URI);
-
+  
 
 connectDB()
 .then(()=>{
