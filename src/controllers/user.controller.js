@@ -17,7 +17,6 @@ const registerUser = asyncHandler(async(req,res)=>{
 
     //1
     const {fullName,username,email,password} = req.body;
-    console.log(fullName,username,email,password);
 
     //2
     if (
@@ -36,8 +35,8 @@ const registerUser = asyncHandler(async(req,res)=>{
     }
 
     //4
-    const avatarLocalPath = await req.files?.avatar[0]?.path;
-    const coverImageLocalPath = await req.files?.coverImage[0]?.path;
+    const avatarLocalPath = await req?.files?.avatar?.[0]?.path;
+    const coverImageLocalPath = await req?.files?.coverImage?.[0]?.path;
     if (!avatarLocalPath) {
         throw new ApiError(400,"Avatar file is required");
     }
@@ -50,7 +49,7 @@ const registerUser = asyncHandler(async(req,res)=>{
     }
 
     if (!avatar) {
-        throw new ApiError(400,"Avatar file is required")
+        throw new ApiError(400,"Avatar file from server is required")
     }
     //6
     const user = await User.create({
