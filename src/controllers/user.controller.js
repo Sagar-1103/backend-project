@@ -220,7 +220,7 @@ const changeCurrentUserPassword = asyncHandler(async(req,res)=>{
 
   await user.save({validateBeforeSave:false})
 
-  return res.status(200,json(new ApiResponse(200,{},"Password Changed Successfully")));
+  return res.status(200).json(new ApiResponse(200,{},"Password Changed Successfully"));
 
 })
 
@@ -318,10 +318,10 @@ const getUserChannelProfile=asyncHandler(async(req,res)=>{
     {
       $addFields:{
         subscribersCount:{
-          $size:"subscribers"
+          $size:"$subscribers"
         },
         channelsSubscribedToCount:{
-          $size:"subscribedTo"
+          $size:"$subscribedTo"
         },
         isSubscribed:{
           $cond:{
@@ -356,7 +356,7 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
   const user = await User.aggregate([
     {
       $match:{
-        _id: new mongoose.createFromHexString(req.user?._id)
+        _id: new mongoose.Types.ObjectId(req.user?._id)
       }
     },
     {
@@ -372,13 +372,13 @@ const getWatchHistory = asyncHandler(async(req,res)=>{
               localField:"owner",
               foreignField:"_id",
               as:"owner",
-              pipeline:{
+              pipeline:[{
                 $project:{
                   fullName:1,
                   userName:1,
                   avatar:1
                 }
-              }
+              }]
             }
           },
           {
