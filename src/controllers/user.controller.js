@@ -117,7 +117,7 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw ApiError(404, "User doesnt exist");
+    throw new ApiError(404, "User doesnt exist");
   }
 
   //4
